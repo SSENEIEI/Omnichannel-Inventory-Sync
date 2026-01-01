@@ -11,6 +11,22 @@ $dotenv->load();
 
 echo "Starting migration...\n";
 
+// Create database if not exists
+try {
+    $host = $_ENV['DB_HOST'];
+    $port = $_ENV['DB_PORT'];
+    $username = $_ENV['DB_USERNAME'];
+    $password = $_ENV['DB_PASSWORD'];
+    $dbname = $_ENV['DB_DATABASE'];
+
+    $pdo = new PDO("mysql:host=$host;port=$port", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    echo "Database '$dbname' checked/created successfully.\n";
+} catch (PDOException $e) {
+    die("DB Creation failed: " . $e->getMessage() . "\n");
+}
+
 $database = new Database();
 $db = $database->getConnection();
 

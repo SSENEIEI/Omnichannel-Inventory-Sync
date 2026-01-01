@@ -74,6 +74,25 @@ $lowStock = $stmt->fetchAll();
             </div>
             
             <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        🔄 Sync Logs (จำลองการส่งข้อมูลไป Platform อื่น)
+                    </div>
+                    <div class="card-body bg-dark text-white" style="max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.85rem;">
+                        <?php
+                        $logFile = __DIR__ . '/../logs/sync.log';
+                        if (file_exists($logFile)) {
+                            $logs = array_reverse(file($logFile)); // อ่านไฟล์และกลับลำดับให้ล่าสุดอยู่บน
+                            foreach ($logs as $line) {
+                                echo htmlspecialchars($line) . "<br>";
+                            }
+                        } else {
+                            echo "No sync activity yet.";
+                        }
+                        ?>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header bg-danger text-white">
                         Low Stock Alert (สินค้าใกล้หมด)

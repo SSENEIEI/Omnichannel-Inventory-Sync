@@ -43,7 +43,9 @@ class Database
 
             $this->conn = new PDO($dsn, $this->username, $this->password, $options);
         } catch (PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+            // echo "Connection error: " . $exception->getMessage();
+            // Don't echo here, let the caller handle it
+            error_log("Connection error: " . $exception->getMessage());
         }
 
         return $this->conn;
